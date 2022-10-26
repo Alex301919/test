@@ -105,7 +105,7 @@ echo '<?php system($_REQUEST['cmd']); ?>' >> img.png
 | ssh      | Более подробно по ссылке   | [SSH](https://book.hacktricks.xyz/generic-methodologies-and-resources/tunneling-and-port-forwarding#ssh) |
 | sshutlle | `sshuttle -vr username@ip 0/0 --ssh-cmd 'ssh'` |   [sshuttle](https://sshuttle.readthedocs.io/en/stable/usage.html) |
 | reGeorg  | Можно загрузить файл на веб-сервер с тунелем и установить соединение через него(если нет возможности открыть порт на машине)|    [reGeorg](https://github.com/sensepost/reGeorg) |
-| chisel   | Установка соединения через сервер и клиент. Ссылки на инструкцию и релиз на гитхабе(чтоб не устанавливать на машину) | [Интсрукция](https://book.hacktricks.xyz/generic-methodologies-and-resources/tunneling-and-port-forwarding#chisel) [Release](https://book.hacktricks.xyz/generic-methodologies-and-resources/tunneling-and-port-forwarding#chisel)       |
+| chisel   | Установка соединения через сервер и клиент. Ссылки на инструкцию и релиз на github(чтоб не устанавливать на машину) | [Интсрукция](https://book.hacktricks.xyz/generic-methodologies-and-resources/tunneling-and-port-forwarding#chisel) [Release](https://book.hacktricks.xyz/generic-methodologies-and-resources/tunneling-and-port-forwarding#chisel)       |
 
 
 [Дополнительная информация по тунелям и пробросу портов](https://book.hacktricks.xyz/generic-methodologies-and-resources/tunneling-and-port-forwarding)
@@ -144,15 +144,18 @@ echo "<pre>$output</pre>";
 +  `Если вашего случая тут нет, дополните своим кейсом этот шаблон`
 
 ### **Проверка расширений загружаемых файлов и проверка содержимого загружаемых файлов**
-Проверять название и рисширение загружаемого файла на наличие спец. символов, дополнительных расширний в файле и тд.
+Необходимо проверять не только расширение загружаемых файлов, mime-type и стартовые последовательности байт, но и содержимое файла на наличие вредоносного кода. Такие возможности предоставляют WAF решения.
 ### **Создания списка допустимых расширений, допустимых  к загрузке**
 Создание "BlackList" и "WhiteList" расширений для загрузки файлов
 BlackList - список расширений недоступных для загрузки
 WhiteList - список расширений, файлы с которыми допущены для загрузки
 ### **Генерировать имя файла и расширение при записи на сервер**
 Лучше всего генерировать случайное имя, которое невозможно угадать, например использовать UUID в качестве имени файла.
+Для этого можно использовать встроенную функцию в PHP.
+
+`$filename = uniqid();`
 ### **Запрет на выполнение файлов в дерикториях доступных пользователю**
-Загружать файлы на веб сервер за пределы веб-каталога, это гарантирует, что веб файлы не будут доступны напрямую, через веб-сервер.
+Загружать файлы на веб сервер за пределы веб-каталога, это гарантирует, что веб файлы не будут доступны напрямую, через веб-сервер, если такая возможность отсутствует, следует выставить права на загружаемые файлы `только для чтения`.
 ### **Сравнивать последовательность байтов файла с ожидаемым расширением файла**
 Производить сравнение получаемого расширения файла с его стандартными байтами, которы епринадлежать данному расширению.
 ```https://www.netspi.com/blog/technical/web-application-penetration-testing/magic-bytes-identifying-common-file-formats-at-a-glance/```
